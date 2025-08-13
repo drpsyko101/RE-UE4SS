@@ -3,7 +3,7 @@ name: Make Experimental Release
 on:
   workflow_dispatch:
   push:
-    branches: [ "main" ]
+    branches: [ "amc" ]
     paths:
       - "UE4SS/src/**"
       - "UE4SS/include/**"
