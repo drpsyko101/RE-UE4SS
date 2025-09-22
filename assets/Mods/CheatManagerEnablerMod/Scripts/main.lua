@@ -30,3 +30,18 @@ RegisterHook("/Script/Engine.PlayerController:ClientRestart", function(self, New
         print("[CheatManagerEnabler] Was unable to construct CheatManager, therefore, could not enable Cheat Manager\n")
     end
 end)
+
+---@param PlayerController RemoteUnrealParam<APlayerController>
+NotifyOnNewObject("/Script/Engine.PlayerController", function(PlayerController)
+    if not PlayerController.CheatManager:IsValid() then
+        print("[CheatManagerEnabler] Adding Cheat Manager on NotifyOnNewObject\n")
+        local CheatManagerClass = StaticFindObject("/Script/Engine.CheatManager")
+        if CheatManagerClass:IsValid() then
+            local CreatedCheatManager = StaticConstructObject(CheatManagerClass, PlayerController)
+            if CreatedCheatManager:IsValid() then
+                print(string.format("[CheatManagerEnabler] Constructed CheatManager [0x%X]\n", CreatedCheatManager:GetAddress()))
+                PlayerController.CheatManager = CreatedCheatManager
+            end
+        end
+    end
+end)
